@@ -1,22 +1,25 @@
 
-import org.hamcrest.Matcher;
+import io.restassured.http.ContentType;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.net.URL;
+import java.util.List;
+
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+
 
 public class Tests {
+    public final String URL = "https://reqres.in/";
 
     @Test
     public void aa() {
-        given().
-                when()
-                .get("https://gorest.co.in/public-api/users\n")
-                .then()
-                .statusCode(200)
-                .assertThat()
-                .body("data[0].id", equalTo(3301))
-                .body("data[0].name",equalTo("Advaya Somayaji"));
-
+        List<Users> users = given()
+                .when()
+                .contentType(ContentType.JSON)
+                .get(URL + "api/users?page=2")
+                .then().log().all()
+                .extract().body().jsonPath().getList("data", Users.class);
+        users.forEach(x -> Assert.assertTrue(x.getAvatar().contains(x.getId().toString())));
     }
 }
