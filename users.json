@@ -1,0 +1,65 @@
+[
+  {
+    "id": 4108,
+    "name": "Mrs. Shakti Sharma",
+    "email": "mrs_shakti_sharma@wintheiser-kerluke.org",
+    "gender": "female",
+    "status": "inactive"
+  },
+  {
+    "id": 4107,
+    "name": "Dr. Suresh Dhawan",
+    "email": "dhawan_suresh_dr@osinski-hegmann.io",
+    "gender": "male",
+    "status": "active"
+  },
+  {
+    "id": 4106,
+    "name": "Shivakari Shukla",
+    "email": "shivakari_shukla@oberbrunner.co",
+    "gender": "male",
+    "status": "active"
+  },
+  {
+    "id": 4105,
+    "name": "Agnivesh Guha",
+    "email": "agnivesh_guha@brekke-hane.co",
+    "gender": "female",
+    "status": "inactive"
+  },
+  {
+    "id": 4104,
+    "name": "Menaka Singh",
+    "email": "singh_menaka@legros.org",
+    "gender": "female",
+    "status": "active"
+  },
+  {
+    "id": 4103,
+    "name": "Ojaswini Guha",
+    "email": "ojaswini_guha@pfannerstill.co",
+    "gender": "male",
+    "status": "inactive"
+  },
+  {
+    "id": 4102,
+    "name": "Darshan Nair",
+    "email": "darshan_nair@lind.co",
+    "gender": "female",
+    "status": "inactive"
+  },
+  {
+    "id": 4101,
+    "name": "Aarya Dutta",
+    "email": "aarya_dutta@haag.io",
+    "gender": "male",
+    "status": "active"
+  },
+  {
+    "id": 4100,
+    "name": "Suryakanta Kaniyar",
+    "email": "suryakanta_kaniyar@ferry.com",
+    "gender": "male",
+    "status": "inactive"
+  }
+]
