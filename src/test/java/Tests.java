@@ -4,11 +4,10 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
 import io.restassured.specification.*;
 import org.testng.annotations.Test;
+import util.URI;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import io.restassured.response.ValidatableResponse;
 
 
 public class Tests {
@@ -24,8 +22,13 @@ public class Tests {
 
     @Test
     public void aa() {
-        String json = get("https://gorest.co.in/public/v2/users").asString();
-        List<String> users = JsonPath.from(json).get("data.id");
+        RequestSpecification requestSpecification = RestAssured.given()
+                .baseUri(URI.BASE)
+                .basePath(URI.USERS);
+
+        String json = requestSpecification.get().asString();
+        List<String> users = JsonPath.from(json).get("id");
+        assertThat(users.size(), greaterThan(0));
     }
 
     @Test
@@ -33,26 +36,28 @@ public class Tests {
         get("https://gorest.co.in/public/v2/users")
                 .then()
                 .statusCode(200)
-                .body("[0].id", equalTo(4102))
-                .body("[0].email", equalTo("mrs_shakti_sharma@wintheiser-kerluke.org"));
+                .body("[0].id", allOf(isA(Integer.class), greaterThanOrEqualTo(0)),
+                        "[0].email", containsString("@"));
+
     }
 
     @Test
-    public void generic(){
-        List<Map<String,Object>> users = get("https://gorest.co.in/public/v2/users").as(new TypeRef<List<Map<String, Object>>>() {});
-        assertThat(users.get(0).get("id"),equalTo(4102));
-        assertThat(users.get(1).get("email"),equalTo("aarya_dutta@haag.io"));
-        assertThat(users.get(2).get("gender"),equalTo("male"));
+    public void generic() {
+        List<Map<String, Object>> users = get("https://gorest.co.in/public/v2/users").as(new TypeRef<List<Map<String, Object>>>() {
+        });
+        assertThat(users.get(0).get("id"), equalTo(4102));
+        assertThat(users.get(1).get("email"), equalTo("aarya_dutta@haag.io"));
+        assertThat(users.get(2).get("gender"), equalTo("male"));
     }
 
 
     @Test
     public void post() {
         String jsonString = "{\"id\":\"41055156139\",\"name\":\"Vardan\",\"email\":\"vasrsv@gmail.com\"}";
-
-        RestAssured.baseURI = "https://gorest.co.in/public/v2/users";
+        RequestSpecification requestSpecification;
         requestSpecification = RestAssured
                 .given()
+                .baseUri("https://gorest.co.in/public/v2/users")
                 .contentType(ContentType.JSON)
                 .body(jsonString);
 
