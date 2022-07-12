@@ -6,15 +6,15 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.*;
 import org.testng.annotations.Test;
+import service.BaseService;
 import util.URI;
 
 import java.util.List;
 import java.util.Map;
 
-import static io.restassured.RestAssured.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-
+import static service.BaseService.gets;
 
 
 public class Tests {
@@ -22,28 +22,24 @@ public class Tests {
 
     @Test
     public void aa() {
-        RequestSpecification requestSpecification = RestAssured.given()
-                .baseUri(URI.BASE)
-                .basePath(URI.USERS);
-
-        String json = requestSpecification.get().asString();
+        String json = gets(URI.BASE, URI.USERS).asString();
         List<String> users = JsonPath.from(json).get("id");
         assertThat(users.size(), greaterThan(0));
     }
 
     @Test
     public void bb() {
-        get("https://gorest.co.in/public/v2/users")
+        gets(URI.BASE, URI.USERS)
                 .then()
                 .statusCode(200)
-                .body("[0].id", allOf(isA(Integer.class), greaterThanOrEqualTo(0)),
-                        "[0].email", containsString("@"));
+                .body("id", allOf(isA(Integer.class),greaterThanOrEqualTo(0)),
+                        "email[0]", containsString("@"));
 
     }
 
     @Test
     public void generic() {
-        List<Map<String, Object>> users = get("https://gorest.co.in/public/v2/users").as(new TypeRef<List<Map<String, Object>>>() {
+        List<Map<String, Object>> users = gets(URI.BASE, URI.USERS).as(new TypeRef<List<Map<String, Object>>>() {
         });
         assertThat(users.get(0).get("id"), equalTo(4102));
         assertThat(users.get(1).get("email"), equalTo("aarya_dutta@haag.io"));
