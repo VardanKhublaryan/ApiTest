@@ -4,6 +4,7 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.*;
 import org.testng.annotations.Test;
 import service.BaseService;
@@ -15,6 +16,7 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static service.BaseService.gets;
+import static service.BaseService.posts;
 
 
 public class Tests {
@@ -32,9 +34,8 @@ public class Tests {
         gets(URI.BASE, URI.USERS)
                 .then()
                 .statusCode(200)
-                .body("id", allOf(isA(Integer.class),greaterThanOrEqualTo(0)),
-                        "email[0]", containsString("@"));
-
+                .body("id[]", allOf(isA(Integer.class),greaterThanOrEqualTo(0)),
+                        "email[]", containsString("@"));
     }
 
     @Test
@@ -50,20 +51,6 @@ public class Tests {
     @Test
     public void post() {
         String jsonString = "{\"id\":\"41055156139\",\"name\":\"Vardan\",\"email\":\"vasrsv@gmail.com\"}";
-        RequestSpecification requestSpecification;
-        requestSpecification = RestAssured
-                .given()
-                .baseUri("https://gorest.co.in/public/v2/users")
-                .contentType(ContentType.JSON)
-                .body(jsonString);
-
-        Response response = requestSpecification.post();
-        String responseString = response.prettyPrint();
-
-//        ValidatableResponse validatableResponse = response
-//                .then()
-//                .statusCode(200)
-//                .statusLine("HTTP/1.1 200 OK");
-
+        posts(URI.BASE,URI.USERS,jsonString);
     }
 }
