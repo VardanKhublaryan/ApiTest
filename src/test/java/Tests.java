@@ -34,8 +34,8 @@ public class Tests {
         gets(URI.BASE, URI.USERS)
                 .then()
                 .statusCode(200)
-                .body("id[]", allOf(isA(Integer.class),greaterThanOrEqualTo(0)),
-                        "email[]", containsString("@"));
+                .body("id", everyItem(allOf(isA(Integer.class),greaterThanOrEqualTo(0))),
+                        "email", everyItem(allOf(containsString("@"))));//to do
     }
 
     @Test
