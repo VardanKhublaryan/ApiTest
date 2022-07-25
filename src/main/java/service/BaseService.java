@@ -23,5 +23,21 @@ public class BaseService {
                 .body(json);
         requestSpecification.post();
     }
+
+    public static void puts(String url, String path, String json) {
+        requestSpecification.baseUri(url)
+                .basePath(path)
+                .contentType(ContentType.JSON)
+                .body(json);
+        requestSpecification.put();
+    }
+
+    public static void deletes(String url, String path, String json) {
+        requestSpecification.baseUri(url)
+                .basePath(path)
+                .contentType(ContentType.JSON)
+                .body(json);
+        requestSpecification.delete();
+    }
 //    todo wrap methods: get, post, put, delete
 }
