@@ -1,14 +1,9 @@
 
-import io.restassured.RestAssured;
+
 import io.restassured.common.mapper.TypeRef;
-import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
-import io.restassured.specification.*;
 import org.testng.annotations.Test;
-import service.BaseService;
-import util.URI;
+
 
 import java.util.*;
 import static org.hamcrest.MatcherAssert.*;
