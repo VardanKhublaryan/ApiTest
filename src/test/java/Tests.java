@@ -10,28 +10,25 @@ import org.testng.annotations.Test;
 import service.BaseService;
 import util.URI;
 
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static service.BaseService.gets;
-import static service.BaseService.posts;
+import static service.BaseService.*;
+import static service.Configuration.*;
 
 
 public class Tests {
-    public final String URL = "https://reqres.in/";
 
     @Test
     public void aa() {
-        String json = gets(URI.BASE, URI.USERS).asString();
+        String json = gets(BASE_URL, USERS).asString();
         List<String> users = JsonPath.from(json).get("id");
         assertThat(users.size(), greaterThan(0));
     }
 
     @Test
     public void bb() {
-        gets(URI.BASE, URI.USERS)
+        gets(BASE_URL, USERS)
                 .then()
                 .statusCode(200)
                 .body("id", everyItem(allOf(isA(Integer.class),greaterThanOrEqualTo(0))),
@@ -40,7 +37,7 @@ public class Tests {
 
     @Test
     public void generic() {
-        List<Map<String, Object>> users = gets(URI.BASE, URI.USERS).as(new TypeRef<List<Map<String, Object>>>() {
+        List<Map<String, Object>> users = gets(BASE_URL, USERS).as(new TypeRef<List<Map<String, Object>>>() {
         });
         assertThat(users.get(0).get("id"), equalTo(4102));
         assertThat(users.get(1).get("email"), equalTo("aarya_dutta@haag.io"));
@@ -51,6 +48,6 @@ public class Tests {
     @Test
     public void post() {
         String jsonString = "{\"id\":\"41055156139\",\"name\":\"Vardan\",\"email\":\"vasrsv@gmail.com\"}";
-        posts(URI.BASE,URI.USERS,jsonString);
+        posts(BASE_URL,USERS,jsonString);
     }
 }

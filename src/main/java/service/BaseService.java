@@ -16,12 +16,12 @@ public class BaseService {
         return requestSpecification.get();
     }
 
-    public static Response posts(String url, String path, String json) {
+    public static void posts(String url, String path, String json) {
         requestSpecification.baseUri(url)
                 .basePath(path)
                 .contentType(ContentType.JSON)
                 .body(json);
-        return requestSpecification.post();
+        requestSpecification.post();
     }
 //    todo wrap methods: get, post, put, delete
 }

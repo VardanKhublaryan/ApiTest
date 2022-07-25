@@ -7,6 +7,7 @@ import java.util.Properties;
 
 public class Configuration {
     public static final String BASE_URL = getPropValues("base_url");
+    public static final String USERS = getPropValues("users");
 
 
     private Configuration() {
@@ -38,17 +39,15 @@ public class Configuration {
 
 
     public static String getPropValues(String key) {
-        if (System.getProperty(key).isEmpty() || System.getProperty(key) == null) {
+        if (System.getProperty(key) == null || System.getProperty(key).isEmpty()) {
             try {
                 return getPropValues().getProperty(key);
             } catch (IOException e) {
                 e.printStackTrace();
-                return null;
-            }
 
-        } else {
-            return System.getProperty(key);
+            }
         }
+        return System.getProperty(key);
     }
 }
 
