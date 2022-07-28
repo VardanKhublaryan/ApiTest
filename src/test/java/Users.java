@@ -1,3 +1,6 @@
+import lombok.Data;
+
+@Data
 public class Users{
     private Integer id;
     private String email;
@@ -13,23 +16,23 @@ public class Users{
         this.avatar = avatar;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public String getFirst_name() {
+//        return first_name;
+//    }
+//
+//    public String getLast_name() {
+//        return last_name;
+//    }
+//
+//    public String getAvatar() {
+//        return avatar;
+//    }
 }

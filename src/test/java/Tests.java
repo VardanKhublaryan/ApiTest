@@ -1,8 +1,7 @@
 
-
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.path.json.JsonPath;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 
 import java.util.*;
@@ -27,7 +26,7 @@ public class Tests {
                 .then()
                 .statusCode(200)
                 .body("id", everyItem(allOf(isA(Integer.class),greaterThanOrEqualTo(0))),
-                        "email", everyItem(allOf(containsString("@"))));//to do
+                        "email", everyItem(allOf(containsString("@"))));
     }
 
     @Test

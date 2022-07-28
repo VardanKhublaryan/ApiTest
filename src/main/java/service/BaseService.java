@@ -39,5 +39,4 @@ public class BaseService {
                 .body(json);
         requestSpecification.delete();
     }
-//    todo wrap methods: get, post, put, delete
 }
