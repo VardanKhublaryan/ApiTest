@@ -1,13 +1,13 @@
 package util;
 
 import java.io.File;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import java.io.File;
 public class MyLog4j {
-    static Logger logger = Logger.getLogger(MyListener.class);
-    static String log4jConfigFile = System.getProperty("user.dir")
+    private static final Logger logger = Logger.getLogger(MyListener.class);
+    private static final String log4jConfigFile = System.getProperty("user.dir")
             + File.separator + "src/main/resources/log4j.properties";
 
     public static void info(String info) {

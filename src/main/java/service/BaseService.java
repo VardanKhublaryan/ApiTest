@@ -1,42 +1,44 @@
-
 package service;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
+import static service.Configuration.*;
 
 public class BaseService {
 
-    public static RequestSpecification requestSpecification = RestAssured.given();
 
-    public static Response gets(String url, String path) {
-        requestSpecification.baseUri(url)
-                .basePath(path);
-        return requestSpecification.get();
+    public static Response Get(String path) {
+        return RestAssured.given()
+                .baseUri(BASE_URL)
+                .basePath(path).
+                get();
     }
 
-    public static void posts(String url, String path, String json) {
-        requestSpecification.baseUri(url)
+    public static Response Post(String path, String json) {
+        return RestAssured.given().
+                baseUri(BASE_URL)
                 .basePath(path)
                 .contentType(ContentType.JSON)
-                .body(json);
-        requestSpecification.post();
+                .body(json)
+                .post();
     }
 
-    public static void puts(String url, String path, String json) {
-        requestSpecification.baseUri(url)
+    public static Response Put(String path, String json) {
+        return RestAssured.given()
+                .baseUri(BASE_URL)
                 .basePath(path)
                 .contentType(ContentType.JSON)
-                .body(json);
-        requestSpecification.put();
+                .body(json)
+                .put();
     }
 
-    public static void deletes(String url, String path, String json) {
-        requestSpecification.baseUri(url)
+    public static Response Delete(String path, String json) {
+        return RestAssured.given()
+                .baseUri(BASE_URL)
                 .basePath(path)
                 .contentType(ContentType.JSON)
-                .body(json);
-        requestSpecification.delete();
+                .body(json)
+                .delete();
     }
 }
