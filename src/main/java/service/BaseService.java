@@ -10,9 +10,11 @@ public class BaseService {
 
     public static Response Get(String path) {
         return RestAssured.given()
+                .when()
+                .contentType(ContentType.JSON)
                 .baseUri(BASE_URL)
-                .basePath(path).
-                get();
+                .basePath(path)
+                .get();
     }
 
     public static Response Post(String path, String json) {
@@ -26,9 +28,9 @@ public class BaseService {
 
     public static Response Put(String path, String json) {
         return RestAssured.given()
+                .contentType(ContentType.JSON)
                 .baseUri(BASE_URL)
                 .basePath(path)
-                .contentType(ContentType.JSON)
                 .body(json)
                 .put();
     }

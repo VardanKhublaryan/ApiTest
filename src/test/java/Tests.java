@@ -1,50 +1,32 @@
 
-import io.restassured.common.mapper.TypeRef;
-import io.restassured.path.json.JsonPath;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.testng.annotations.*;
 import util.MyListener;
+import util.UsersData;
 
 
 import java.util.*;
 
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static service.BaseService.*;
 import static service.Configuration.*;
-import static service.UserService.*;
 
 @Listeners(MyListener.class)
 public class Tests {
 
     @Test
     public void aa() {
-        String json = getUsers();
-        List<String> users = JsonPath.from(json).get("id");
-        assertThat(users.size(), greaterThan(0));
-    }
+        List<UsersData> users = Get(USERS)
+                .then().log().all()
+                .extract().body().jsonPath().getList("data", UsersData.class);
 
-    @Test
-    public void bb() {
-        Get(USERS)
-                .then()
-                .statusCode(200)
-                .body("id", everyItem(allOf(isA(Integer.class), greaterThanOrEqualTo(0))),
-                        "email", everyItem(allOf(containsString("@"))));
-    }
-
-    @Test
-    public void generic() {
-        List<Map<String, Object>> users = Get(USERS).as(new TypeRef<>() {
-        });
-        assertThat(users.get(0).get("id"), equalTo(4102));
-        assertThat(users.get(1).get("email"), equalTo("aarya_dutta@haag.io"));
-        assertThat(users.get(2).get("gender"), equalTo("male"));
-    }
+        users.forEach(x->assertThat(x.getId(),isA(Integer.class)));
 
 
-    @Test
-    public void post() {
-        String jsonString = "{\"id\":\"41055156139\",\"name\":\"Vardan\",\"email\":\"vasrsv@gmail.com\"}";
-        Post(USERS, jsonString).then().statusCode(401);
+
+
     }
 }
