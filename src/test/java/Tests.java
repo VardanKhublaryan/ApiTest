@@ -1,6 +1,7 @@
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hamcrest.core.AllOf;
 import org.testng.annotations.*;
 import util.MyListener;
 import util.UsersData;
@@ -24,6 +25,7 @@ public class Tests {
                 .extract().body().jsonPath().getList("data", UsersData.class);
 
         users.forEach(x->assertThat(x.getId(),isA(Integer.class)));
+        users.forEach(x->assertThat(x.getEmail(),allOf(isA(String.class),containsString("@reqres.in"))));
 
 
 
