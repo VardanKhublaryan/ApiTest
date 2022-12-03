@@ -17,7 +17,7 @@ public class BaseService {
                 .get();
     }
 
-    public static Response Post(String path, String json) {
+    public static Response Post(String path, Object json) {
         return RestAssured.given().
                 baseUri(BASE_URL)
                 .basePath(path)
@@ -26,7 +26,7 @@ public class BaseService {
                 .post();
     }
 
-    public static Response Put(String path, String json) {
+    public static Response Put(String path, Object json) {
         return RestAssured.given()
                 .contentType(ContentType.JSON)
                 .baseUri(BASE_URL)
@@ -35,12 +35,11 @@ public class BaseService {
                 .put();
     }
 
-    public static Response Delete(String path, String json) {
+    public static Response Delete(String path) {
         return RestAssured.given()
                 .baseUri(BASE_URL)
                 .basePath(path)
                 .contentType(ContentType.JSON)
-                .body(json)
                 .delete();
     }
 }

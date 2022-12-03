@@ -8,6 +8,10 @@ import java.util.Properties;
 public class Configuration {
     public static final String BASE_URL = getPropValues("base_url");
     public static final String USERS = getPropValues("users");
+    public static final String SUCCESS_REGISTER =getPropValues("success_register");
+    public static final String CREATE = getPropValues("create");
+    public static final String LOGIN = getPropValues("login");
+    public static final String UPDATE_USER = getPropValues("update_user");
 
 
     private Configuration() {
