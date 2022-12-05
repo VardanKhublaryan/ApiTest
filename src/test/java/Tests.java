@@ -34,7 +34,27 @@ public class Tests {
 
         users.forEach(x -> assertThat(x.getId(), allOf(isA(Integer.class), greaterThanOrEqualTo(0))));
         users.forEach(x -> assertThat(x.getEmail(), allOf(isA(String.class), containsString("@reqres.in"))));
+
+    }
+
+    @Test
+    public void checkId() {
+        List<Integer> ids = Get(USERS)
+                .then().log().all()
+                .extract().body().jsonPath().getList("data.id", Integer.class);
+        for (int i = 1; i < ids.size(); i++) {
+            Assert.assertEquals(ids.get(i - 1) + 1, (int) ids.get(i));
+        }
+    }
+
+    @Test
+    public void checkAvatar() {
+        List<UsersData> users = Get(USERS)
+                .then().log().all()
+                .extract().body().jsonPath().getList("data", UsersData.class);
         users.forEach(x -> Assert.assertTrue(x.getAvatar().contains(x.getId().toString())));
+        users.forEach(x -> Assert.assertTrue(x.getAvatar().endsWith("image.jpg")));
+
     }
 
     @Test
