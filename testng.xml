@@ -6,7 +6,10 @@
 
     <test name="ExecutingListeners">
         <classes>
-            <class name="Tests"/>
+            <class name="CreateAndUpdate"/>
+            <class name="DataFields"/>
+            <class name="Login"/>
+            <class name="UserRegister"/>
         </classes>
     </test>
 </suite>
