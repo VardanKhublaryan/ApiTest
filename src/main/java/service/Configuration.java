@@ -1,5 +1,8 @@
 package service;
 
+import org.testng.ITestResult;
+import org.testng.Reporter;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,6 +56,13 @@ public class Configuration {
             }
         }
         return System.getProperty(key);
+    }
+
+    public static void showDetails() {
+        ITestResult result = Reporter.getCurrentTestResult();
+        String s = result.getTestClass().getName() + "." + result.getMethod().getMethodName() + "()  on Thread #"
+                + Thread.currentThread().getId();
+        Reporter.log(s + " ran.", true);
     }
 }
 
