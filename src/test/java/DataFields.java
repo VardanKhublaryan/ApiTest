@@ -20,7 +20,7 @@ public class DataFields {
                 .then().statusCode(200)
                 .log().all()
                 .extract().body().jsonPath().getList("data", UsersData.class);
-        users.forEach(x -> softAssert.assertNotNull(x.getAvatar()));
+        users.forEach(x -> softAssert.assertNotNull(x.getEmail()));
         softAssert.assertAll();
         users.forEach(x -> assertThat(x.getEmail(), allOf(isA(String.class), containsString("@reqres.in"))));
 
@@ -35,8 +35,8 @@ public class DataFields {
         for (int i = 1; i < ids.size(); i++) {
             softAssert.assertEquals(ids.get(i - 1) + 1, (int) ids.get(i));
             softAssert.assertNotNull(ids.get(i));
+            assertThat(ids.get(i),allOf(isA(Integer.class), greaterThanOrEqualTo(0)));
         }
-        ids.forEach(x -> assertThat(x, allOf(isA(Integer.class), greaterThanOrEqualTo(0))));
         softAssert.assertAll();
     }
 

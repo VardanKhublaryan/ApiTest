@@ -33,6 +33,7 @@ public class Login {
                 .then().statusCode(400)
                 .log().all()
                 .extract().as(UnSuccessRegister.class);
-        Assert.assertEquals(error, unSuccessReg.getError());
+        softAssert.assertNotNull(unSuccessReg);
+        softAssert.assertEquals(error, unSuccessReg.getError());
     }
 }
