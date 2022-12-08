@@ -7,6 +7,7 @@ import org.testng.asserts.SoftAssert;
 import pojoClases.Create;
 import pojoClases.CreateResponse;
 import pojoClases.TimeResponse;
+import service.BaseService;
 import service.Configuration;
 
 import java.lang.reflect.Method;
@@ -19,14 +20,15 @@ import static service.Configuration.*;
 
 public class CreateAndUpdate {
 
+    BaseService baseService = new BaseService();
     SoftAssert softAssert = new SoftAssert();
 
-    @DataProvider(name = "hardCodedBrowsers", parallel = true)
-    public static Object[][] sauceBrowserDataProvider(Method testMethod) {
-        return new Object[][]{
-                new Object[]{"chrome", "41", "Windows XP"},
-        };
-    }
+//    @DataProvider(name = "hardCodedBrowsers", parallel = true)
+//    public static Object[][] sauceBrowserDataProvider(Method testMethod) {
+//        return new Object[][]{
+//                new Object[]{"chrome", "41", "Windows XP"},
+//        };
+//    }
 
 
     @Test
@@ -34,8 +36,7 @@ public class CreateAndUpdate {
         String name = "morpheus";
         String job = "leader";
         Create create = new Create(name, job);
-
-        CreateResponse createResponse = Post(CREATE, create)
+        CreateResponse createResponse = baseService.Post(CREATE, create)
                 .then().statusCode(201)
                 .extract().as(CreateResponse.class);
 
@@ -49,7 +50,7 @@ public class CreateAndUpdate {
         String currentTime = Clock.systemUTC().instant().toString().replaceAll(regex1, "");
         softAssert.assertEquals(currentTime, createResponse.getCreatedAt().replaceAll(regex, ""));
         softAssert.assertAll();
-
+        baseService.PostTime(CREATE, create);
         showDetails();
     }
 
@@ -59,7 +60,7 @@ public class CreateAndUpdate {
         String job = "zion resident";
         Create create = new TimeResponse(name, job);
 
-        TimeResponse updateUser = Put(UPDATE_USER, create)
+        TimeResponse updateUser = baseService.Put(UPDATE_USER, create)
                 .then()
                 .extract().as(TimeResponse.class);
 
@@ -67,13 +68,13 @@ public class CreateAndUpdate {
         String regex1 = "(.{13})$";
         String currentTime = Clock.systemUTC().instant().toString().replaceAll(regex1, "");
         Assert.assertEquals(currentTime, updateUser.getUpdatedAt().replaceAll(regex, ""));
-        ITestResult result = Reporter.getCurrentTestResult();
+        baseService.PutTime(CREATE, create);
         showDetails();
     }
 
     @Test
     public void deleteUser() {
-        Delete("/api/users/2")
+        baseService.Delete("/api/users/2")
                 .then().statusCode(204);
         showDetails();
     }
