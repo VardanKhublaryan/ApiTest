@@ -1,21 +1,28 @@
+import io.restassured.RestAssured;
+import io.restassured.config.ObjectMapperConfig;
+import io.restassured.mapper.ObjectMapperType;
+import io.restassured.specification.RequestSpecification;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import io.restassured.http.ContentType;
 import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.Reporter;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pojoClases.Create;
 import pojoClases.CreateResponse;
 import pojoClases.TimeResponse;
 import service.BaseService;
-import service.Configuration;
 
-import java.lang.reflect.Method;
 import java.time.Clock;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.isA;
-import static service.BaseService.*;
 import static service.Configuration.*;
 
 public class CreateAndUpdate {
@@ -77,5 +84,30 @@ public class CreateAndUpdate {
         baseService.Delete("/api/users/2")
                 .then().statusCode(204);
         showDetails();
+    }
+
+    @Test
+    public void aaa() {
+        RequestSpecification requestSpecification = given()
+                .baseUri("http://habesha.energaming.systems/api/v2/multi")
+                .contentType(ContentType.JSON);
+        String d = """
+                        [
+                            {
+                                "module": "auth",
+                                "method": "sign_in",
+                                "options": {
+                                    "login": "275390",
+                                    "password": "habesha789",
+                                    "client": "desktop"
+                                }
+                            }
+                        ]
+                """;
+        requestSpecification.body(d);
+        requestSpecification.post("http://habesha.energaming.systems/api/v2/multi")
+                .then().log().all()
+                .statusCode(200);
+
     }
 }
